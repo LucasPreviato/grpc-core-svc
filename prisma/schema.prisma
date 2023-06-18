@@ -17,23 +17,42 @@ enum GeneralStatus {
 }
 
 model Company {
-  id        String        @id @default(uuid())
-  uniqueId  Int           @unique @default(autoincrement())
-  name      String
-  address   String
-  city      String
-  state     String
-  zip       String
-  country   String
-  phone     String
-  email     String
-  website   String
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  employees Employee[]
-  status    GeneralStatus @default(ACTIVE)
+  id          String     @id @default(uuid())
+  uniqueId    Int        @unique @default(autoincrement())
+  cnpj        String
+  companyName String
+  tradingName String
+  address     String?
+  city        String?
+  state       String?
+  zip         String?
+  country     String?
+  phone       String?
+  email       String?
+  website     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Unit        Unit[]
+  Employee    Employee[]
 
+  @@unique([cnpj, companyName])
   @@map("companies")
+}
+
+model Unit {
+  id          String        @id @default(uuid())
+  uniqueId    Int           @unique @default(autoincrement())
+  name        String
+  description String?
+  status      GeneralStatus @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Company     Company       @relation(fields: [companyId], references: [uniqueId])
+  companyId   Int
+  Employee    Employee[]
+
+  @@unique([companyId, name])
+  @@map("units")
 }
 
 model Employee {
@@ -42,6 +61,8 @@ model Employee {
   lastName  String
   Company   Company? @relation(fields: [companyId], references: [id])
   companyId String?
+  Unit      Unit?    @relation(fields: [unitId], references: [uniqueId])
+  unitId    Int?
 
   @@map("employees")
 }
