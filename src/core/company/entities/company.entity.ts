@@ -6,14 +6,14 @@ export enum CompanyStatus {
 
 export class Company {
   public id: string;
-  public uniqueId: number;
+  public companyId: number;
   public cnpj: string;
   public companyName!: string;
   public tradingName!: string;
   public address: string;
   public city: string;
   public state: string;
-  public zip: string;
+  public zipCode: string;
   public country: string;
   public phone: string;
   public email: string;

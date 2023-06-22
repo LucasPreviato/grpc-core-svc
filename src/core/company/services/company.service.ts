@@ -4,9 +4,8 @@ import {
   CreateCompanyRequestDto,
   GetCompanyRequestDto,
 } from '../dtos/company.dto';
-import { CreateCompanyResponse } from 'src/core/company.pb';
 import { Company } from '../entities/company.entity';
-import { GetCompanyResponse } from 'src/core/company.pb';
+import { CreateCompanyResponse, GetCompanyResponse } from 'src/core/core.pb';
 
 @Injectable()
 export class CompanyService {
@@ -22,7 +21,7 @@ export class CompanyService {
     company.address = payload.address;
     company.city = payload.city;
     company.state = payload.state;
-    company.zip = payload.zip;
+    company.zipCode = payload.zipCode;
     company.country = payload.country;
     company.phone = payload.phone;
     company.email = payload.email;
@@ -41,11 +40,11 @@ export class CompanyService {
   }
 
   public async getCompany({
-    id,
+    companyId,
   }: GetCompanyRequestDto): Promise<GetCompanyResponse> {
     const company: Company = await this.prisma.company.findUnique({
       where: {
-        id: id,
+        companyId: companyId,
       },
     });
     if (!company) {

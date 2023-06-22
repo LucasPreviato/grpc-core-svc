@@ -5,7 +5,7 @@ import {
   COMPANY_SERVICE_NAME,
   CreateCompanyResponse,
   GetCompanyResponse,
-} from 'src/core/company.pb';
+} from 'src/core/core.pb';
 import {
   CreateCompanyRequestDto,
   GetCompanyRequestDto,

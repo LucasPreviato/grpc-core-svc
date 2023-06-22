@@ -1,5 +1,5 @@
-import { IsOptional, IsString } from 'class-validator';
-import { CreateCompanyRequest, GetCompanyRequest } from 'src/core/company.pb';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { CreateCompanyRequest, GetCompanyRequest } from 'src/core/core.pb';
 
 export class CreateCompanyRequestDto implements CreateCompanyRequest {
   @IsString()
@@ -19,7 +19,7 @@ export class CreateCompanyRequestDto implements CreateCompanyRequest {
   public readonly state: string;
   @IsString()
   @IsOptional()
-  public readonly zip: string;
+  public readonly zipCode: string;
   @IsString()
   @IsOptional()
   public readonly country: string;
@@ -35,6 +35,6 @@ export class CreateCompanyRequestDto implements CreateCompanyRequest {
 }
 
 export class GetCompanyRequestDto implements GetCompanyRequest {
-  @IsString()
-  public readonly id: string;
+  @IsNumber()
+  companyId: number;
 }

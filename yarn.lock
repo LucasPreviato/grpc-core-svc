@@ -2711,7 +2711,7 @@ graphemer@^1.4.0:
 
 "grpc-proto@git+https://github.com/LucasPreviato/grpc-qualilabs-proto.git":
   version "1.0.0"
-  resolved "git+https://github.com/LucasPreviato/grpc-qualilabs-proto.git#2de8425ed4c5948546711ada4b4d11e8e3f2ad69"
+  resolved "git+https://github.com/LucasPreviato/grpc-qualilabs-proto.git#b223f614901011705270707f563d2d0002a13594"
 
 has-flag@^3.0.0:
   version "3.0.0"

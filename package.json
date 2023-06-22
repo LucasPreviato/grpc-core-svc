@@ -19,8 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "proto:install": "yarn add git+https://github.com/LucasPreviato/grpc-qualilabs-proto.git",
-    "proto:company": "protoc --plugin=node_modules/.bin/protoc-gen-ts_proto -I=./node_modules/grpc-proto/proto --ts_proto_out=src/ node_modules/grpc-proto/proto/core/company.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
-    "proto:core": "yarn proto:company"
+    "proto:core": "protoc --plugin=node_modules/.bin/protoc-gen-ts_proto -I=./node_modules/grpc-proto/proto --ts_proto_out=src/ node_modules/grpc-proto/proto/core/core.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb",
+    "proto:all": "yarn proto:core"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.15",
