@@ -17,9 +17,8 @@ enum GeneralStatus {
 }
 
 model Company {
-  resourceId String @default(uuid())
-  companyId  Int    @id @unique @default(autoincrement())
-  tableId    Int    @default(autoincrement())
+  resourceId  String     @default(cuid())
+  companyId   Int        @id @unique @default(autoincrement())
   cnpj        String
   companyName String
   tradingName String
@@ -41,9 +40,9 @@ model Company {
 }
 
 model Unit {
-  resourceId  String       @default(uuid())
+  resourceId  String       @default(cuid())
   unitId      Int          @id @default(autoincrement())
-  tableId     Int          @default(autoincrement())
+  tableId     Int
   name        String
   description String?
   createdAt   DateTime     @default(now())
@@ -55,12 +54,14 @@ model Unit {
 
   @@unique([name, companyId, unitId])
   @@map("units")
+
+  
 }
 
 model Department {
-  resourceId   String     @default(uuid())
+  resourceId   String     @default(cuid())
   departmentId Int        @id @default(autoincrement())
-  tableId      Int        @default(autoincrement())
+  tableId      Int
   name         String
   description  String?
   createdAt    DateTime   @default(now())
@@ -74,8 +75,9 @@ model Department {
 }
 
 model Employee {
-  resourceId             String      @default(uuid())
-  employeeId             Int         @id @unique @default(autoincrement())
+  resourceId             String      @default(cuid())
+  employeeId             Int         @id @default(autoincrement())
+  tableId                Int
   firstName              String
   lastName               String
   Company                Company?    @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
@@ -85,5 +87,6 @@ model Employee {
   Department             Department? @relation(fields: [departmentDepartmentId], references: [departmentId])
   departmentDepartmentId Int?
 
+  @@unique([firstName, lastName, companyId, unitId, departmentDepartmentId])
   @@map("employees")
 }
