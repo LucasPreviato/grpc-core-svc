@@ -17,8 +17,8 @@ export class PrismaUnitRepository extends UnitRepository {
     });
     return unit;
   }
-
   public createUnit(payload: CreateUnitRequestDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { companyId, ...rest } = payload;
     const unit = this.prisma.unit.create({
       data: {

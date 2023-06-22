@@ -17,8 +17,9 @@ enum GeneralStatus {
 }
 
 model Company {
-  id          String     @default(uuid())
-  companyId   Int        @id @unique @default(autoincrement())
+  resourceId String @default(uuid())
+  companyId  Int    @id @unique @default(autoincrement())
+  tableId    Int    @default(autoincrement())
   cnpj        String
   companyName String
   tradingName String
@@ -40,29 +41,49 @@ model Company {
 }
 
 model Unit {
-  id          String     @default(uuid())
-  unitId      Int        @id  @default(autoincrement())
-  name        String     
+  resourceId  String       @default(uuid())
+  unitId      Int          @id @default(autoincrement())
+  tableId     Int          @default(autoincrement())
+  name        String
   description String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  Company     Company?   @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
-  companyId Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Company     Company?     @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
+  companyId   Int?
   Employee    Employee[]
+  Department  Department[]
 
   @@unique([name, companyId, unitId])
   @@map("units")
 }
 
+model Department {
+  resourceId   String     @default(uuid())
+  departmentId Int        @id @default(autoincrement())
+  tableId      Int        @default(autoincrement())
+  name         String
+  description  String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  Unit         Unit?      @relation(fields: [unitId], references: [unitId], onDelete: Cascade)
+  unitId       Int?
+  Employee     Employee[]
+
+  @@unique([name, unitId, departmentId, tableId])
+  @@map("departments")
+}
+
 model Employee {
-  id          String   @default(uuid())
-  employeeId  Int      @id @unique @default(autoincrement())
-  firstName   String
-  lastName    String
-  Company     Company? @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
-  companyId Int?
-  Unit        Unit?    @relation(fields: [unitId], references: [unitId])
-  unitId      Int?
+  resourceId             String      @default(uuid())
+  employeeId             Int         @id @unique @default(autoincrement())
+  firstName              String
+  lastName               String
+  Company                Company?    @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
+  companyId              Int?
+  Unit                   Unit?       @relation(fields: [unitId], references: [unitId])
+  unitId                 Int?
+  Department             Department? @relation(fields: [departmentDepartmentId], references: [departmentId])
+  departmentDepartmentId Int?
 
   @@map("employees")
 }
