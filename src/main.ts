@@ -2,9 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { INestMicroservice, ValidationPipe } from '@nestjs/common';
 import { Transport } from '@nestjs/microservices';
-import { protobufPackage } from './core/company.pb';
 import { join } from 'path';
-import { HttpExceptionFilter } from './core/company/filters/http-exception.filter';
+import { protobufPackage } from './core/core.pb';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const app: INestMicroservice = await NestFactory.createMicroservice(
@@ -14,7 +14,7 @@ async function bootstrap() {
       options: {
         url: '0.0.0.0:50051',
         package: protobufPackage,
-        protoPath: join('node_modules/grpc-proto/proto/core/company.proto'),
+        protoPath: join('node_modules/grpc-proto/proto/core/core.proto'),
       },
     },
   );

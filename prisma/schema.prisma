@@ -17,15 +17,15 @@ enum GeneralStatus {
 }
 
 model Company {
-  id          String     @id @default(uuid())
-  uniqueId    Int        @unique @default(autoincrement())
+  id          String     @default(uuid())
+  companyId   Int        @id @unique @default(autoincrement())
   cnpj        String
   companyName String
   tradingName String
   address     String?
   city        String?
   state       String?
-  zip         String?
+  zipCode     String?
   country     String?
   phone       String?
   email       String?
@@ -40,29 +40,29 @@ model Company {
 }
 
 model Unit {
-  id          String        @id @default(uuid())
-  uniqueId    Int           @unique @default(autoincrement())
-  name        String
+  id          String     @default(uuid())
+  unitId      Int        @id  @default(autoincrement())
+  name        String     
   description String?
-  status      GeneralStatus @default(ACTIVE)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  Company     Company       @relation(fields: [companyId], references: [uniqueId])
-  companyId   Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Company     Company?   @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
+  companyId Int?
   Employee    Employee[]
 
-  @@unique([companyId, name])
+  @@unique([name, companyId, unitId])
   @@map("units")
 }
 
 model Employee {
-  id        Int      @id @default(autoincrement())
-  firstName String
-  lastName  String
-  Company   Company? @relation(fields: [companyId], references: [id])
-  companyId String?
-  Unit      Unit?    @relation(fields: [unitId], references: [uniqueId])
-  unitId    Int?
+  id          String   @default(uuid())
+  employeeId  Int      @id @unique @default(autoincrement())
+  firstName   String
+  lastName    String
+  Company     Company? @relation(fields: [companyId], references: [companyId], onDelete: Cascade)
+  companyId Int?
+  Unit        Unit?    @relation(fields: [unitId], references: [unitId])
+  unitId      Int?
 
   @@map("employees")
 }
