@@ -52,7 +52,7 @@ model Unit {
   Employee    Employee[]
   Department  Department[]
 
-  @@unique([name, companyId, unitId])
+  @@unique([name, companyId])
   @@map("units")
 
   
@@ -70,7 +70,7 @@ model Department {
   unitId       Int?
   Employee     Employee[]
 
-  @@unique([name, unitId, departmentId, tableId])
+  @@unique([name, unitId, departmentId])
   @@map("departments")
 }
 

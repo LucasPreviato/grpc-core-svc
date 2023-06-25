@@ -5,7 +5,7 @@ export enum CompanyStatus {
 }
 
 export class Company {
-  public id: string;
+  public resourceId: string;
   public companyId: number;
   public cnpj: string;
   public companyName!: string;

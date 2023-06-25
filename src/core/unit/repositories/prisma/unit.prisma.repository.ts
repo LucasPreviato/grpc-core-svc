@@ -9,27 +9,46 @@ export class PrismaUnitRepository extends UnitRepository {
   constructor(private readonly prisma: PrismaService) {
     super();
   }
-  public getUnit(unitId: GetUnitRequest) {
-    const unit = this.prisma.unit.findUnique({
+  public async getUnit(unitId: GetUnitRequest) {
+    const unit = await this.prisma.unit.findUnique({
       where: {
         unitId: unitId.unitId,
       },
     });
     return unit;
   }
-  public createUnit(payload: CreateUnitRequestDto) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async createUnit(payload: CreateUnitRequestDto) {
     const { companyId, ...rest } = payload;
-    const unit = this.prisma.unit.create({
+
+    const maxTableId = await this.prisma.unit.findFirst({
+      where: {
+        companyId: companyId,
+        tableId: {
+          not: undefined,
+        },
+      },
+      select: {
+        tableId: true,
+      },
+      orderBy: {
+        tableId: 'desc',
+      },
+    });
+
+    const nextTableId = maxTableId?.tableId ? maxTableId.tableId + 1 : 1;
+
+    const unit = await this.prisma.unit.create({
       data: {
         ...rest,
+        tableId: nextTableId,
         Company: {
           connect: {
-            companyId: payload.companyId,
+            companyId: companyId,
           },
         },
       },
     });
+
     return unit;
   }
 }

@@ -1,6 +1,7 @@
 export class Unit {
-  id: string;
+  resourceId: string;
   unitId: number;
+  tableId: number;
   name: string;
   description: string;
   companyId: number;

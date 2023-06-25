@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 export const protobufPackage = "core";
 
 export interface CompanyData {
-  id: string;
+  resourceId: string;
   companyId: number;
   cnpj: string;
   companyName: string;
@@ -51,8 +51,9 @@ export interface CreateCompanyResponse {
 }
 
 export interface UnitData {
-  id: string;
+  resourceId: string;
   unitId: number;
+  tableId: number;
   name: string;
   description: string;
   companyId: number;
@@ -83,13 +84,15 @@ export interface CreateUnitResponse {
 }
 
 export interface DepartmentData {
-  id: string;
+  resourceId: string;
   departmentId: number;
-  name: string;
-  description: string;
   companyId: number;
   unitId: number;
+  tableId: number;
+  name: string;
+  description: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface GetDepartmentRequest {
@@ -116,11 +119,12 @@ export interface CreateDepartmentResponse {
 }
 
 export interface JobsCategoryData {
-  id: string;
+  resourceId: string;
   jobCategoryId: number;
+  companyId: number;
+  tableId: number;
   name: string;
   description: string;
-  companyId: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -148,26 +152,20 @@ export interface CreateJobsCategoryResponse {
 }
 
 export interface JobsData {
-  id: string;
-  uniqueId: number;
+  resourceId: string;
+  categoryId: number;
+  jobId: number;
+  companyId: number;
+  tableId: number;
   title: string;
   description: string;
-  companyId: number;
-  categoryId: number;
-  city: string;
-  state: string;
-  country: string;
-  zipCode: string;
-  address: string;
   salary: string;
-  type: string;
-  status: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface GetJobsRequest {
-  uniqueId: number;
+  jobId: number;
 }
 
 export interface GetJobsResponse {
@@ -181,14 +179,7 @@ export interface CreateJobsRequest {
   description: string;
   companyId: number;
   categoryId: number;
-  city: string;
-  state: string;
-  country: string;
-  zipCode: string;
-  address: string;
   salary: string;
-  type: string;
-  status: string;
 }
 
 export interface CreateJobsResponse {
@@ -198,8 +189,13 @@ export interface CreateJobsResponse {
 }
 
 export interface EmployeeData {
-  id: string;
-  uniqueId: number;
+  resourceId: string;
+  employeeId: number;
+  companyId: number;
+  unitId: number;
+  departmentId: number;
+  jobId: number;
+  tableId: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -209,16 +205,13 @@ export interface EmployeeData {
   state: string;
   country: string;
   zipCode: string;
-  companyId: number;
-  unitId: number;
-  departmentId: number;
-  jobId: number;
+  companyEmail: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface GetEmployeeRequest {
-  uniqueId: number;
+  employeeId: number;
 }
 
 export interface GetEmployeeResponse {
@@ -237,6 +230,7 @@ export interface CreateEmployeeRequest {
   state: string;
   country: string;
   zipCode: string;
+  companyEmail: string;
   companyId: number;
   unitId: number;
   departmentId: number;
