@@ -86,13 +86,12 @@ export interface CreateUnitResponse {
 export interface DepartmentData {
   resourceId: string;
   departmentId: number;
-  companyId: number;
-  unitId: number;
   tableId: number;
   name: string;
   description: string;
   createdAt: string;
   updatedAt: string;
+  unitId: number;
 }
 
 export interface GetDepartmentRequest {
@@ -108,7 +107,6 @@ export interface GetDepartmentResponse {
 export interface CreateDepartmentRequest {
   name: string;
   description: string;
-  companyId: number;
   unitId: number;
 }
 
