@@ -13,6 +13,9 @@ export class CreateDepartmentRequestDto implements CreateDepartmentRequest {
   @IsNumber()
   @IsNotEmpty()
   unitId: number;
+  @IsNumber()
+  @IsNotEmpty()
+  companyId: number;
 }
 
 export class GetDepartmentRequestDto implements GetDepartmentRequest {

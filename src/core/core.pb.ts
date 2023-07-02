@@ -108,6 +108,7 @@ export interface CreateDepartmentRequest {
   name: string;
   description: string;
   unitId: number;
+  companyId: number;
 }
 
 export interface CreateDepartmentResponse {

@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Company {
-  resourceId  String   @default(cuid())
-  companyId   Int      @id @unique @default(autoincrement())
+  resourceId  String        @default(cuid())
+  companyId   Int           @id @unique @default(autoincrement())
   cnpj        String
   companyName String
   tradingName String
@@ -24,9 +24,13 @@ model Company {
   phone       String?
   email       String?
   website     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   Unit        Unit[]
+  JobCategory JobCategory[]
+  Department  Department[]
+  Jobs        Jobs[]
+  Employee    Employee[]
 
   @@unique([cnpj, companyName])
   @@map("companies")
@@ -59,10 +63,46 @@ model Department {
   updatedAt    DateTime   @updatedAt
   Unit         Unit       @relation(fields: [unitId], references: [unitId])
   unitId       Int
+  Company      Company    @relation(fields: [companyId], references: [companyId])
+  companyId    Int
   Employee     Employee[]
 
   @@unique([name, unitId, departmentId])
   @@map("departments")
+}
+
+model JobCategory {
+  resourceId    String   @default(cuid())
+  jobCategoryId Int      @id @default(autoincrement())
+  tableId       Int
+  name          String
+  description   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  Company       Company  @relation(fields: [companyId], references: [companyId])
+  companyId     Int
+  Jobs          Jobs[]
+
+  @@unique([name, jobCategoryId, companyId])
+  @@map("job_categories")
+}
+
+model Jobs {
+  resourceId    String       @default(cuid())
+  jobId         Int          @id @default(autoincrement())
+  tableId       Int
+  name          String
+  description   String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  JobCategory   JobCategory? @relation(fields: [jobCategoryId], references: [jobCategoryId])
+  jobCategoryId Int?
+  Company       Company      @relation(fields: [companyId], references: [companyId])
+  companyId     Int
+  Employee      Employee[]
+
+  @@unique([name, jobCategoryId])
+  @@map("jobs")
 }
 
 model Employee {
@@ -75,6 +115,10 @@ model Employee {
   unitId       Int?
   Department   Department? @relation(fields: [departmentId], references: [departmentId])
   departmentId Int?
+  Jobs         Jobs?       @relation(fields: [jobsJobId], references: [jobId])
+  jobsJobId    Int?
+  Company      Company     @relation(fields: [companyId], references: [companyId])
+  companyId    Int
 
   @@unique([firstName, lastName, unitId, departmentId])
   @@map("employees")

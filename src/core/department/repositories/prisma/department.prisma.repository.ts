@@ -22,11 +22,11 @@ export class PrismaDepartmentRepository implements DepartmentRepository {
   public async createDepartment(
     payload: CreateDepartmentRequestDto,
   ): Promise<any> {
-    const { unitId, ...rest } = payload;
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { companyId, unitId, ...rest } = payload;
     const maxTableId = await this.prisma.department.findFirst({
       where: {
-        unitId: unitId,
+        companyId: companyId,
         tableId: {
           not: undefined,
         },
@@ -39,18 +39,22 @@ export class PrismaDepartmentRepository implements DepartmentRepository {
       },
     });
     const nextTableId = maxTableId?.tableId ? maxTableId.tableId + 1 : 1;
-
-    const new_department = await this.prisma.department.create({
+    const department = await this.prisma.department.create({
       data: {
         ...rest,
         tableId: nextTableId,
         Unit: {
           connect: {
-            unitId: unitId,
+            unitId: payload.unitId,
+          },
+        },
+        Company: {
+          connect: {
+            companyId: companyId,
           },
         },
       },
     });
-    console.log(new_department);
+    return department;
   }
 }
